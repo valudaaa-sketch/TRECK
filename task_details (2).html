@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRECK - Task Details</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden flex flex-col selection:bg-indigo-500/30">
+
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-emerald-900/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+    <nav class="relative z-10 w-full p-4 md:px-8 md:py-6 flex justify-between items-center border-b border-white/[0.05] bg-[#050505]/50 backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <button class="text-white/50 hover:text-white transition-colors" title="Back to Dashboard">
+                <i class="ph ph-house text-xl"></i>
+            </button>
+            <div class="h-4 w-px bg-white/10"></div>
+            <div class="text-xs text-white/40 uppercase tracking-widest font-medium flex items-center gap-2">
+                <span>School ERP</span>
+                <i class="ph ph-caret-right text-[10px]"></i>
+                <span class="text-white/70">Task</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="flex flex-col items-end hidden sm:flex">
+                <span class="text-sm text-white/90 font-medium">rahul@user.com</span>
+                <span class="text-[10px] text-white/40 uppercase tracking-widest">Member</span>
+            </div>
+            <button class="text-xs text-white/50 hover:text-white transition-colors">Logout</button>
+        </div>
+    </nav>
+
+    <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-8 md:py-12 flex flex-col gap-10">
+        
+        <!-- Header & Horizontal Properties -->
+        <header class="flex flex-col gap-5">
+            <!-- Task Title -->
+            <input 
+                type="text" 
+                value="App frontend check" 
+                class="w-full bg-transparent text-3xl md:text-4xl font-semibold text-white/90 placeholder-white/20 border-none outline-none focus:bg-white/[0.02] rounded-lg -ml-2 px-2 py-1 transition-colors"
+                placeholder="Task Title"
+            />
+            
+            <div class="flex flex-wrap items-center gap-2 md:gap-3">
+                
+                <!-- Status Pill -->
+                <button class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg transition-colors group">
+                    <div class="relative flex items-center justify-center w-2 h-2">
+                        <div class="absolute inset-0 bg-emerald-500 rounded-full blur-[2px] opacity-60"></div>
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full relative z-10"></div>
+                    </div>
+                    <span class="text-xs text-white/80 font-medium">Resolved</span>
+                    <i class="ph ph-caret-down text-[10px] text-white/40 group-hover:text-white/70 transition-colors ml-1"></i>
+                </button>
+
+                <!-- Priority Pill -->
+                <button class="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg transition-colors group">
+                    <i class="ph-bold ph-arrow-up-right text-rose-400 text-[10px]"></i>
+                    <span class="text-xs text-white/80 font-medium">Critical</span>
+                    <i class="ph ph-caret-down text-[10px] text-white/40 group-hover:text-white/70 transition-colors ml-1"></i>
+                </button>
+
+                <!-- Assignee Pill -->
+                <button class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg transition-colors group">
+                    <i class="ph ph-user text-[10px] text-white/40"></i>
+                    <span class="text-xs text-white/50 italic font-medium">Unassigned</span>
+                    <i class="ph ph-caret-down text-[10px] text-white/40 group-hover:text-white/70 transition-colors ml-1"></i>
+                </button>
+
+                <!-- Due Date Pill -->
+                <button class="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg transition-colors group">
+                    <i class="ph ph-calendar-blank text-white/40 text-xs"></i>
+                    <span class="text-xs text-white/80 font-medium">26/06/2026</span>
+                </button>
+
+                <!-- Divider & Timestamps -->
+                <div class="hidden sm:flex items-center gap-4 ml-auto pl-4 border-l border-white/10">
+                    <span class="text-[10px] text-white/40 font-medium tracking-wide flex items-center gap-1">
+                        <i class="ph ph-clock text-xs"></i> Created 24/06
+                    </span>
+                    <span class="text-[10px] text-white/40 font-medium tracking-wide flex items-center gap-1">
+                        <i class="ph ph-arrows-clockwise text-xs"></i> Updated 25/06
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <section class="flex flex-col gap-3">
+            <label class="text-[10px] uppercase tracking-widest text-white/40 font-semibold flex items-center gap-2">
+                <i class="ph ph-text-align-left text-sm"></i> Description
+            </label>
+            <div class="bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] rounded-xl p-0.5 relative group transition-colors focus-within:border-white/20 focus-within:bg-white/[0.03]">
+                <textarea 
+                    class="w-full bg-transparent text-sm text-white/80 leading-relaxed p-4 min-h-[120px] resize-y placeholder-white/20 outline-none"
+                    placeholder="Add details..."
+                >fd</textarea>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Checklists -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 font-semibold flex items-center gap-2">
+                        <i class="ph ph-check-square-offset text-sm"></i> Checklist
+                    </label>
+                    <button class="text-[10px] text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 border border-white/5 px-2 py-1 rounded flex items-center gap-1">
+                        <i class="ph ph-plus"></i> Add
+                    </button>
+                </div>
+                <div class="py-4 border border-dashed border-white/10 rounded-xl flex items-center justify-center">
+                    <span class="text-xs text-white/30 italic">No checklist items.</span>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 font-semibold flex items-center gap-2">
+                        <i class="ph ph-paperclip text-sm"></i> Attachments
+                    </label>
+                    <button class="text-[10px] text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 border border-white/5 px-2 py-1 rounded flex items-center gap-1">
+                        <i class="ph ph-upload-simple"></i> Attach File
+                    </button>
+                </div>
+                <div class="py-4 border border-dashed border-white/10 rounded-xl flex items-center justify-center">
+                    <span class="text-xs text-white/30 italic">No files attached.</span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="flex flex-col pt-8 mt-4 border-t border-white/[0.05]">
+            
+            <!-- Tabs -->
+            <div class="flex items-center gap-8 border-b border-white/10 pb-px mb-6">
+                <button class="text-sm font-medium text-white border-b-2 border-white pb-3 -mb-px flex items-center gap-2">
+                    Discussion <span class="bg-white/10 text-white/70 text-[10px] px-1.5 py-0.5 rounded-md">0</span>
+                </button>
+                <button class="text-sm font-medium text-white/40 hover:text-white/70 pb-3 -mb-px transition-colors flex items-center gap-2">
+                    Activity Log
+                </button>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="py-8 flex items-center justify-center">
+                <span class="text-xs text-white/30 italic">No comments yet. Start the conversation.</span>
+            </div>
+
+            <!-- Compact Inline Comment Input -->
+            <div class="flex items-center gap-3 mt-4">
+                <div class="w-8 h-8 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-[10px] text-white/70 font-bold shrink-0">
+                    CC
+                </div>
+                
+                <div class="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 focus-within:border-white/20 focus-within:bg-white/10 rounded-full flex items-center pr-1.5 transition-all">
+                    <input 
+                        type="text"
+                        class="w-full bg-transparent text-sm text-white/90 py-2.5 px-4 placeholder-white/30 outline-none"
+                        placeholder="Write a comment... Use @name to mention"
+                    />
+                    <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors shrink-0" title="Send (Enter)">
+                        <i class="ph-fill ph-paper-plane-tilt text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

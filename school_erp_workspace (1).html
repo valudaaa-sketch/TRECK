@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School ERP 1 - Slack-Style Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Extremely light gray background to feel weightless */
+            background-color: #FFFFFF;
+        }
+
+        /* Invisible scrollbars for that native desktop app feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D1D5DB;
+        }
+        
+        /* Smooth row highlighting */
+        .task-row {
+            transition: background-color 0.1s ease;
+        }
+    </style>
+</head>
+<body class="text-[#1D1C1D] antialiased h-screen w-full flex overflow-hidden selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- LEFT PANE: Navigation & Resources (Slack-style sidebar) -->
+    <aside class="w-[260px] bg-[#F8F9FA] flex flex-col border-r border-gray-200/80 shrink-0">
+        
+        <!-- Workspace Header -->
+        <div class="h-12 px-4 mt-2 mx-2 rounded-md flex items-center justify-between hover:bg-gray-200/50 cursor-pointer transition-colors group">
+            <div class="flex items-center min-w-0">
+                <div class="w-5 h-5 rounded bg-[#1D1C1D] text-white flex items-center justify-center text-[10px] font-bold mr-2.5 shrink-0 shadow-sm">
+                    S1
+                </div>
+                <h1 class="font-bold text-[15px] truncate tracking-tight">School ERP 1</h1>
+            </div>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 group-hover:text-gray-700"></i>
+        </div>
+
+        <!-- Scrollable Navigation (Project Scope) -->
+        <div class="flex-1 overflow-y-auto py-4 flex flex-col gap-5">
+            
+            <!-- Virtual Nav -->
+            <div class="px-2 space-y-0.5">
+                <button class="w-full px-2 py-1 flex items-center gap-2.5 text-[14px] text-[#1D1C1D] bg-[#EAEAEA] rounded-md font-medium">
+                    <i data-lucide="list-todo" class="w-4 h-4 text-gray-600"></i>
+                    All Tasks
+                </button>
+                <button class="w-full px-2 py-1 flex items-center gap-2.5 text-[14px] text-gray-600 hover:bg-gray-200/50 hover:text-[#1D1C1D] rounded-md transition-colors">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    Project Board
+                </button>
+            </div>
+
+            <!-- Documentation Section -->
+            <div>
+                <div class="px-4 flex items-center justify-between group cursor-pointer mb-1">
+                    <span class="text-[12px] font-semibold text-gray-500 hover:text-gray-700 transition-colors">Documentation</span>
+                    <i data-lucide="plus" class="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-200 rounded p-0.5"></i>
+                </div>
+                <div class="px-2">
+                    <div class="px-2 py-1.5 text-[13px] text-gray-400 flex items-center gap-2">
+                        No documents yet.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files Section -->
+            <div>
+                <div class="px-4 flex items-center justify-between group cursor-pointer mb-1">
+                    <span class="text-[12px] font-semibold text-gray-500 hover:text-gray-700 transition-colors">Files</span>
+                    <i data-lucide="plus" class="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-200 rounded p-0.5"></i>
+                </div>
+                <div class="px-2 space-y-0.5">
+                    <button class="w-full px-2 py-1 flex items-center justify-between text-[14px] text-gray-600 hover:text-[#1D1C1D] hover:bg-gray-200/50 rounded-md transition-colors group">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            <span class="truncate">1.pdf</span>
+                        </div>
+                    </button>
+                    <button class="w-full px-2 py-1 flex items-center justify-between text-[14px] text-gray-600 hover:text-[#1D1C1D] hover:bg-gray-200/50 rounded-md transition-colors group">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <i data-lucide="image" class="w-4 h-4"></i>
+                            <span class="truncate">images (31).jpeg</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activity Logs (Moved to Bottom of Project Scope) -->
+            <div class="px-2 mt-2">
+                <details class="group/logs" open>
+                    <summary class="px-2 py-1.5 flex items-center justify-between cursor-pointer list-none hover:bg-gray-200/50 rounded-md transition-colors">
+                        <div class="flex items-center gap-2.5 text-[13px] font-semibold text-gray-600 group-hover/logs:text-[#1D1C1D]">
+                            <i data-lucide="activity" class="w-4 h-4 text-blue-500"></i>
+                            <span>Activity Logs</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open/logs:rotate-180 transition-transform"></i>
+                    </summary>
+                    <div class="px-3 py-2 text-[12px] text-gray-500 space-y-4 border-l-2 border-gray-200 ml-4 mt-1 mb-2">
+                        <!-- Streamlined Log Events -->
+                        <div class="flex flex-col gap-0.5 relative">
+                            <div class="absolute -left-[13px] top-1.5 w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            <span class="text-[#1D1C1D] font-medium leading-snug">admin <span class="font-normal text-gray-500">edited this project</span></span>
+                            <span class="text-[10px] text-gray-400">Jun 26, 05:52 PM</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5 relative">
+                            <div class="absolute -left-[13px] top-1.5 w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            <span class="text-[#1D1C1D] font-medium leading-snug">admin <span class="font-normal text-gray-500">uploaded a file</span></span>
+                            <span class="text-[10px] text-gray-400">Jun 26, 05:50 PM</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5 relative">
+                            <div class="absolute -left-[13px] top-1.5 w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            <span class="text-[#1D1C1D] font-medium leading-snug">admin <span class="font-normal text-gray-500">deleted a file</span></span>
+                            <span class="text-[10px] text-gray-400">Jun 26, 05:50 PM</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+        </div>
+
+        <!-- Sticky Footer: GLOBAL SCOPE (Differently Shaded Background) -->
+        <div class="mt-auto border-t border-gray-300 p-3 flex flex-col gap-3 bg-[#ECEEF0] shrink-0 shadow-[inset_0_1px_3px_rgba(0,0,0,0.02)]">
+            
+            <!-- Global Items -->
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider px-2 mb-1">Global Workspace</span>
+                
+                <!-- Team Notepad (Chat Box Visualizer) -->
+                <div class="px-2 py-2 bg-white/70 rounded-md border border-gray-300/80 shadow-sm mb-1 transition-colors flex flex-col gap-2">
+                    <div class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="message-square" class="w-4 h-4 text-blue-600"></i>
+                            <span class="text-[13px] font-semibold text-[#1D1C1D]">Team Notepad</span>
+                        </div>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    
+                    <!-- Sample Chat Messages -->
+                    <div class="flex flex-col gap-2.5 px-1 pb-1 mt-1">
+                        <div class="flex items-start gap-2">
+                            <div class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center text-[8px] font-bold shrink-0 mt-0.5">RA</div>
+                            <div class="min-w-0">
+                                <span class="text-[#1D1C1D] text-[12px] font-medium leading-none">Rahul</span>
+                                <p class="text-[11px] text-gray-600 leading-tight mt-0.5">Updated the lesson planner UI.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <div class="w-5 h-5 rounded bg-emerald-600 text-white flex items-center justify-center text-[8px] font-bold shrink-0 mt-0.5">HA</div>
+                            <div class="min-w-0">
+                                <span class="text-[#1D1C1D] text-[12px] font-medium leading-none">Han</span>
+                                <p class="text-[11px] text-gray-600 leading-tight mt-0.5">Can we review the dfd task?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center bg-white border border-gray-300 rounded overflow-hidden shadow-inner mt-1">
+                        <input type="text" placeholder="Drop a quick note..." class="w-full text-[12px] px-2 py-1.5 outline-none bg-transparent placeholder:text-gray-400">
+                        <div class="px-2 text-gray-400 hover:text-blue-600 cursor-pointer transition-colors"><i data-lucide="send" class="w-3.5 h-3.5"></i></div>
+                    </div>
+                </div>
+
+                <!-- Manage Archives -->
+                <button class="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-gray-300/70 transition-colors text-left text-gray-700 hover:text-[#1D1C1D]">
+                    <i data-lucide="archive" class="w-4 h-4 text-gray-500"></i>
+                    <span class="text-[13px] font-medium">Manage Archives</span>
+                </button>
+            </div>
+
+            <div class="h-px w-full bg-gray-300/80 my-0.5"></div>
+
+            <!-- Profile -->
+            <button class="w-full flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-gray-300/70 transition-colors text-left group">
+                <div class="w-7 h-7 rounded bg-[#1D1C1D] text-white flex items-center justify-center text-[10px] font-bold shrink-0">AD</div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-[13px] font-semibold text-[#1D1C1D] truncate">Admin User</div>
+                    <div class="text-[11px] text-gray-500 truncate group-hover:text-gray-700">View Profile</div>
+                </div>
+            </button>
+        </div>
+    </aside>
+
+    <!-- CENTER PANE: The Main Stream (Tasks) -->
+    <main class="flex-1 flex flex-col min-w-0 bg-white z-10">
+        
+        <!-- Channel Header -->
+        <header class="h-14 px-5 flex items-center justify-between border-b border-gray-200/80 shrink-0">
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer transition-colors">
+                    <i data-lucide="hash" class="w-4 h-4 text-gray-400"></i>
+                    <h2 class="text-[15px] font-bold text-[#1D1C1D]">all-tasks</h2>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <!-- Avatar Stack like in Slack -->
+                <div class="flex -space-x-1 mr-3 cursor-pointer">
+                    <div class="w-6 h-6 rounded bg-gray-800 text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white z-20">AD</div>
+                    <div class="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white z-10">RA</div>
+                    <div class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white z-0">HA</div>
+                </div>
+                <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500 transition-colors">
+                    <i data-lucide="settings-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Message/Task Stream -->
+        <div class="flex-1 overflow-y-auto pb-6">
+            
+            <!-- Context Date Divider -->
+            <div class="flex items-center mt-6 mb-4 px-5">
+                <div class="flex-1 h-px bg-gray-200"></div>
+                <div class="px-3 text-[12px] font-semibold text-gray-900 border border-gray-200 rounded-full py-0.5 bg-white z-10">
+                    Today
+                </div>
+                <div class="flex-1 h-px bg-gray-200"></div>
+            </div>
+
+            <!-- Task List (Slack Message Style) -->
+            <div class="flex flex-col">
+                
+                <!-- Task Message 1 -->
+                <div class="task-row group flex items-start gap-3 px-5 py-2 hover:bg-[#F8F9FA] relative">
+                    <!-- Hover Action Menu -->
+                    <div class="absolute right-5 top-2.5 opacity-0 group-hover:opacity-100 bg-white border border-gray-200 rounded-md shadow-sm flex items-center h-8 px-1 transition-opacity z-10">
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="check" class="w-4 h-4"></i></button>
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="message-square" class="w-4 h-4"></i></button>
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="w-9 h-9 rounded bg-gray-100 border border-gray-200 border-dashed flex items-center justify-center text-gray-400 shrink-0 mt-0.5 cursor-pointer hover:border-gray-300">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-baseline gap-2">
+                            <span class="font-bold text-[15px] text-[#1D1C1D]">Unassigned</span>
+                            <span class="text-[12px] text-gray-500 hover:underline cursor-pointer">10:42 AM</span>
+                        </div>
+                        <div class="text-[15px] text-[#1D1C1D] mt-0.5 leading-snug">
+                            dfd
+                        </div>
+                        <div class="mt-1.5 flex items-center gap-3 text-[12px] font-medium text-gray-500">
+                            <span class="inline-flex items-center gap-1 bg-orange-50 text-orange-700 px-1.5 py-0.5 rounded border border-orange-100">Medium</span>
+                            <span>Status: Open</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Message 2 -->
+                <div class="task-row group flex items-start gap-3 px-5 py-2 hover:bg-[#F8F9FA] relative bg-[#F8F9FA]/50">
+                    <!-- Hover Action Menu -->
+                    <div class="absolute right-5 top-2.5 opacity-0 group-hover:opacity-100 bg-white border border-gray-200 rounded-md shadow-sm flex items-center h-8 px-1 transition-opacity z-10">
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="message-square" class="w-4 h-4"></i></button>
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="w-9 h-9 rounded bg-gray-800 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                        AD
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-baseline gap-2">
+                            <span class="font-bold text-[15px] text-[#1D1C1D]">admin</span>
+                            <span class="text-[12px] text-gray-500 hover:underline cursor-pointer">10:15 AM</span>
+                        </div>
+                        <div class="text-[15px] text-gray-500 line-through decoration-gray-400 mt-0.5 leading-snug">
+                            gdfgvvv
+                        </div>
+                        <div class="mt-1.5 flex items-center gap-3 text-[12px] font-medium text-gray-500">
+                            <span class="inline-flex items-center gap-1 bg-red-50 text-red-700 px-1.5 py-0.5 rounded border border-red-100">Critical</span>
+                            <span class="text-green-600 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Resolved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context Date Divider -->
+                <div class="flex items-center mt-4 mb-4 px-5">
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <div class="px-3 text-[12px] font-semibold text-gray-900 border border-gray-200 rounded-full py-0.5 bg-white z-10">
+                        Yesterday
+                    </div>
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                </div>
+
+                <!-- Task Message 3 -->
+                <div class="task-row group flex items-start gap-3 px-5 py-2 hover:bg-[#F8F9FA] relative bg-[#F8F9FA]/50">
+                     <div class="absolute right-5 top-2.5 opacity-0 group-hover:opacity-100 bg-white border border-gray-200 rounded-md shadow-sm flex items-center h-8 px-1 transition-opacity z-10">
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+                        <button class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-500"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                    </div>
+                    <div class="w-9 h-9 rounded bg-emerald-600 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                        HA
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-baseline gap-2">
+                            <span class="font-bold text-[15px] text-[#1D1C1D]">Han</span>
+                            <span class="text-[12px] text-gray-500 hover:underline cursor-pointer">4:30 PM</span>
+                        </div>
+                        <div class="text-[15px] text-gray-500 line-through decoration-gray-400 mt-0.5 leading-snug">
+                            Gretchen's kitchen dfd
+                        </div>
+                        <div class="mt-1.5 flex items-center gap-3 text-[12px] font-medium text-gray-500">
+                            <span class="inline-flex items-center gap-1 bg-yellow-50 text-yellow-800 px-1.5 py-0.5 rounded border border-yellow-200">High</span>
+                            <span class="text-green-600 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Resolved</span>
+                            <span class="flex items-center gap-1 text-gray-400"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> Jul 3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input Area (Sticky Bottom) -->
+                <div class="mt-8 px-5 sticky bottom-6">
+                    <div class="border border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm transition-colors focus-within:border-gray-400">
+                        <div class="px-3 py-2 bg-gray-50/50 border-b border-gray-200 flex gap-1">
+                            <button class="p-1 text-gray-500 hover:bg-gray-200 rounded"><i data-lucide="bold" class="w-4 h-4"></i></button>
+                            <button class="p-1 text-gray-500 hover:bg-gray-200 rounded"><i data-lucide="italic" class="w-4 h-4"></i></button>
+                            <div class="w-px h-4 bg-gray-300 my-auto mx-1"></div>
+                            <button class="p-1 text-gray-500 hover:bg-gray-200 rounded"><i data-lucide="link" class="w-4 h-4"></i></button>
+                            <button class="p-1 text-gray-500 hover:bg-gray-200 rounded"><i data-lucide="list" class="w-4 h-4"></i></button>
+                        </div>
+                        <input type="text" placeholder="Add a new task to #all-tasks" class="w-full px-4 py-3 text-[15px] text-[#1D1C1D] outline-none placeholder:text-gray-400">
+                        <div class="px-2 py-2 flex justify-between items-center">
+                            <div class="flex gap-1">
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-full"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-full"><i data-lucide="smile" class="w-5 h-5"></i></button>
+                            </div>
+                            <button class="bg-gray-100 text-gray-400 p-1.5 rounded-md cursor-not-allowed">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRECK - Create Task</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+        }
+        
+        /* Custom scrollbar for the modal body if it overflows */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-hidden flex flex-col selection:bg-white/20">
+
+    <!-- Abstract Background Light sources (Contextual background to show off the blur) -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-emerald-900/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+    
+    <!-- Fake background content to ground the design -->
+    <div class="absolute inset-0 z-0 p-8 opacity-20 pointer-events-none">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-2xl font-semibold">Welcome back, rahul 👋</h1>
+            <div class="w-full h-64 bg-white/5 rounded-3xl mt-8"></div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+        
+        <!-- Modal Container (Glass Bento Style) -->
+        <div class="w-full max-w-[500px] bg-[#0c0c0e]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col max-h-[90vh]">
+            
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 flex flex-col gap-1 shrink-0">
+                <div class="flex justify-between items-start">
+                    <h2 class="text-lg font-medium text-white/90">Create Task</h2>
+                    <button class="text-white/40 hover:text-white transition-colors p-1 rounded-md hover:bg-white/5" title="Close">
+                        <i class="ph ph-x text-lg"></i>
+                    </button>
+                </div>
+                <p class="text-xs text-white/40">Only title is required.</p>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-2 overflow-y-auto flex-1 flex flex-col gap-5">
+                
+                <!-- Project Selector -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm text-white/90">Project</label>
+                    <button class="w-max flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-2 rounded-lg transition-colors text-sm text-white/80">
+                        <div class="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"></div>
+                        School ERP
+                        <i class="ph ph-caret-down text-white/40 ml-1 text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Title Input -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm text-white/90">Title <span class="text-white/40">*</span></label>
+                    <div class="bg-white/5 border border-white/5 rounded-xl transition-all focus-within:border-white/20 focus-within:bg-white/10">
+                        <input 
+                            type="text" 
+                            class="w-full bg-transparent text-sm text-white px-4 py-2.5 placeholder-white/30 outline-none"
+                            placeholder="What needs to be done?"
+                        />
+                    </div>
+                </div>
+
+                <!-- Description Input -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm text-white/90">Description</label>
+                    <div class="bg-white/5 border border-white/5 rounded-xl transition-all focus-within:border-white/20 focus-within:bg-white/10">
+                        <textarea 
+                            class="w-full bg-transparent text-sm text-white px-4 py-2.5 placeholder-white/30 outline-none min-h-[100px] resize-y"
+                            placeholder="Add details..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Assignee & Attachment Row -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm text-white/90">Assignee</label>
+                    <div class="flex items-center justify-between">
+                        <button class="w-40 flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-2.5 rounded-xl transition-colors text-sm text-white/70">
+                            Unassigned
+                            <i class="ph ph-caret-down text-white/40 text-xs"></i>
+                        </button>
+                        <button class="text-white/40 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5" title="Attach file">
+                            <i class="ph ph-paperclip text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Options Toggle -->
+                <div class="pt-2">
+                    <button id="toggleOptionsBtn" class="flex items-center gap-2 text-xs text-white/50 hover:text-white/90 transition-colors">
+                        <i id="toggleIcon" class="ph ph-caret-down"></i>
+                        <span id="toggleText">More options</span>
+                    </button>
+                </div>
+
+                <!-- Expanded Options Section (Hidden by default) -->
+                <div id="expandedOptions" class="hidden flex-col gap-5 pt-2 animate-[fadeIn_0.2s_ease-out]">
+                    
+                    <!-- Priority & Status Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm text-white/90">Priority</label>
+                            <button class="w-full flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-2.5 rounded-xl transition-colors text-sm text-white/70">
+                                Medium
+                                <i class="ph ph-caret-down text-white/40 text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm text-white/90">Status</label>
+                            <button class="w-full flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-2.5 rounded-xl transition-colors text-sm text-white/70">
+                                Open
+                                <i class="ph ph-caret-down text-white/40 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Deadline -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm text-white/90">Deadline</label>
+                        <div class="flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/5 px-4 py-2.5 rounded-xl transition-colors cursor-pointer group">
+                            <span class="text-sm text-white/50">dd-mm-yyyy</span>
+                            <i class="ph ph-calendar-blank text-white/40 group-hover:text-white/70 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <!-- Checklist Items -->
+                    <div class="flex flex-col gap-2 pb-4">
+                        <label class="text-sm text-white/90">Checklist Items</label>
+                        <div class="flex items-center bg-white/5 border border-white/5 rounded-xl transition-all focus-within:border-white/20 focus-within:bg-white/10 pl-4 pr-1.5 py-1.5">
+                            <input 
+                                type="text" 
+                                class="w-full bg-transparent text-sm text-white placeholder-white/30 outline-none"
+                                placeholder="Add an item..."
+                            />
+                            <button class="text-sm text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors font-medium">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="px-6 py-5 border-t border-white/5 flex items-center justify-end gap-3 shrink-0">
+                <button class="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors rounded-full">
+                    Cancel
+                </button>
+                <button class="px-5 py-2 text-sm font-semibold text-black bg-white hover:bg-gray-100 transition-colors rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:scale-[1.02]">
+                    Create Task
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Simple script to handle the "More options" toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('toggleOptionsBtn');
+            const expandedSection = document.getElementById('expandedOptions');
+            const toggleText = document.getElementById('toggleText');
+            const toggleIcon = document.getElementById('toggleIcon');
+            let isExpanded = false;
+
+            toggleBtn.addEventListener('click', () => {
+                isExpanded = !isExpanded;
+                
+                if (isExpanded) {
+                    expandedSection.classList.remove('hidden');
+                    expandedSection.classList.add('flex');
+                    toggleText.textContent = 'Less options';
+                    toggleIcon.classList.remove('ph-caret-down');
+                    toggleIcon.classList.add('ph-caret-up');
+                } else {
+                    expandedSection.classList.add('hidden');
+                    expandedSection.classList.remove('flex');
+                    toggleText.textContent = 'More options';
+                    toggleIcon.classList.remove('ph-caret-up');
+                    toggleIcon.classList.add('ph-caret-down');
+                }
+            });
+        });
+    </script>
+    
+    <!-- Add a tiny fade-in animation for the expanded section -->
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
