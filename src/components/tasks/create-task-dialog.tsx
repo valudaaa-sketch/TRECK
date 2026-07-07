@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { Plus, X, ChevronDown, Paperclip, Calendar, ChevronUp } from "lucide-react"
+import { Plus, X, ChevronDown, Paperclip, Calendar, ChevronUp, Loader2 } from "lucide-react"
 import { createTask } from "@/app/(app)/tasks/actions"
 import { getProjectColor } from "@/lib/colors"
 
@@ -50,6 +50,7 @@ export function CreateTaskDialog({
   const [checklists, setChecklists] = useState<string[]>([])
   const [newChecklist, setNewChecklist] = useState("")
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+  const [deadline, setDeadline] = useState("")
 
   const PRIMARY_STATUSES = ["open", "in progress", "resolved"]
   const primaryStatuses = statuses.filter(s => PRIMARY_STATUSES.includes(s.name.toLowerCase()))
@@ -61,6 +62,10 @@ export function CreateTaskDialog({
     setError(null)
 
     formData.set("projectId", selectedProjectId || projectId || "")
+    formData.set("statusId", statusId)
+    formData.set("suggestedOwner", assignee)
+    formData.set("priority", priority)
+    if (deadline) formData.set("deadline", deadline)
     formData.set("statusId", statusId)
     formData.set("suggestedOwner", assignee)
     formData.set("priority", priority)
@@ -94,12 +99,18 @@ export function CreateTaskDialog({
       setShowMore(false)
       setSelectedFiles([])
       setChecklists([])
+      setDeadline("")
       router.refresh()
     } catch (err: any) {
       setError(err.message || "Failed to create task")
     } finally {
       setIsLoading(false)
     }
+  }
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    onSubmit(formData)
   }
 
   return (
@@ -111,7 +122,7 @@ export function CreateTaskDialog({
       } />
       
       <DialogContent className="w-full max-w-[500px] bg-background border border-border rounded-xl shadow-2xl p-0 gap-0 overflow-hidden flex flex-col max-h-[90vh] text-white [&>button]:hidden sm:rounded-xl">
-        <form action={onSubmit} className="flex flex-col h-full overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
           
           <div className="px-6 pt-6 pb-4 flex flex-col gap-1 shrink-0">
             <div className="flex justify-between items-start">
@@ -322,9 +333,13 @@ export function CreateTaskDialog({
                       type="date" 
                       name="deadline" 
                       id="deadline" 
+                      value={deadline}
+                      onChange={(e) => setDeadline(e.target.value)}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
-                    <span className="text-[13px] text-muted-foreground pointer-events-none">Select a date</span>
+                    <span className={`text-[13px] ${deadline ? "text-white" : "text-muted-foreground"} pointer-events-none`}>
+                      {deadline ? new Date(deadline).toLocaleDateString() : "Select a date"}
+                    </span>
                     <Calendar className="h-4 w-4 text-muted-foreground group-hover:text-[#777] transition-colors pointer-events-none" />
                   </div>
                 </div>
@@ -396,9 +411,13 @@ export function CreateTaskDialog({
             <button 
               type="submit" 
               disabled={isLoading}
-              className="px-4 py-1.5 text-[13px] font-medium text-white bg-[#858CE9] hover:bg-[#7a81d4] transition-colors rounded-md disabled:opacity-50"
+              className="px-4 py-1.5 text-[13px] font-medium text-white bg-[#858CE9] hover:bg-[#7a81d4] transition-colors rounded-md disabled:opacity-50 flex items-center justify-center min-w-[100px]"
             >
-              {isLoading ? "Creating..." : "Create Task"}
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                "Create Task"
+              )}
             </button>
           </div>
 
