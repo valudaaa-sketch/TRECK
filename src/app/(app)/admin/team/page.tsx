@@ -9,8 +9,7 @@ import { cookies } from "next/headers";
 
 export default async function TeamManagementPage(props: { searchParams: Promise<{ projectId?: string }> }) {
   const searchParams = await props.searchParams;
-  const cookieStore = await cookies();
-  const projectIdFilter = searchParams.projectId || cookieStore.get('treck_last_project_id')?.value;
+  const projectIdFilter = searchParams.projectId;
   
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
