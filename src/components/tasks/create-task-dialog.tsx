@@ -389,7 +389,8 @@ export function CreateTaskDialog({
                           setNewChecklist("");
                         }
                       }}
-                      className="text-sm text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors font-medium shrink-0"
+                      disabled={!newChecklist.trim()}
+                      className="text-sm text-white/70 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors font-medium shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Add
                     </button>

@@ -270,6 +270,30 @@ export function ProjectActivity({ activity, projectId }: { activity: ActivityEnt
                                     </div>
                                   </div>
                                 )}
+                                {entry.action === "file_deleted" && entry.previous_value && (
+                                  <div className="mt-2">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-card opacity-70">
+                                      <FileText className="w-3 h-3 text-muted-foreground" />
+                                      <span className="font-medium text-[11px]">
+                                        {(() => {
+                                          const prevValue = entry.previous_value as any;
+                                          const fileName = prevValue.file_name || "a file";
+                                          const filePath = prevValue.file_path;
+                                          const isAvailable = new Date(entry.created_at).getTime() > Date.now() - 15 * 24 * 60 * 60 * 1000;
+                                          
+                                          if (isAvailable && filePath) {
+                                            return (
+                                              <button onClick={() => downloadFile(filePath)} className="text-muted-foreground hover:text-[#858ce9] hover:underline line-through decoration-muted-foreground transition-colors text-left">
+                                                {fileName}
+                                              </button>
+                                            )
+                                          }
+                                          return <span className="line-through text-muted-foreground">{fileName}</span>
+                                        })()}
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )

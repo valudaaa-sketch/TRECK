@@ -227,6 +227,7 @@ export function DashboardTasks({
                       <button
                         onClick={(e) => {
                           e.preventDefault()
+                          if (!window.confirm(`Mark task "${task.title}" as resolved?`)) return
                           const resolvedStatus = statuses.find(s => s.name.toLowerCase().includes('resolve') || s.name.toLowerCase().includes('done'))
                           if (resolvedStatus) {
                             startTransition(async () => {

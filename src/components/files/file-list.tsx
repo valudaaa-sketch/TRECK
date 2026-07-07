@@ -24,7 +24,8 @@ export function FileList({ projectId, taskId }: FileListProps) {
         .from('files')
         .select(`
           *,
-          uploaded_by_user:users!files_uploaded_by_fkey(full_name)
+          uploaded_by_user:users!files_uploaded_by_fkey(full_name),
+          task:tasks(title)
         `)
         .is('archived_at', null)
         .order('created_at', { ascending: false })
@@ -95,7 +96,7 @@ export function FileList({ projectId, taskId }: FileListProps) {
     }
   }
 
-  const handleDelete = async (id: string, filePath: string, fileName: string) => {
+  const handleDelete = async (id: string, filePath: string, fileName: string, fileTaskId?: string) => {
     if (!confirm('⚠️ WARNING: Are you sure you want to delete this file?\n\nThis action cannot be undone.')) return
 
     try {
@@ -107,7 +108,7 @@ export function FileList({ projectId, taskId }: FileListProps) {
       
       if (dbError) throw dbError
 
-      // Log activity
+      // Log activity to generic file feed
       if (currentUserId) {
         await supabase.from("activity_logs").insert({
           entity_type: "file",
@@ -116,6 +117,18 @@ export function FileList({ projectId, taskId }: FileListProps) {
           action: "file_deleted",
           previous_value: { file_name: fileName, file_path: filePath }
         })
+
+        // Also log to task feed if applicable
+        const targetTaskId = taskId || fileTaskId
+        if (targetTaskId) {
+          await supabase.from("activity_logs").insert({
+            entity_type: "task",
+            entity_id: targetTaskId,
+            user_id: currentUserId,
+            action: "file_deleted",
+            previous_value: { file_name: fileName, file_path: filePath }
+          })
+        }
       }
 
       // Optimistic update
@@ -167,8 +180,18 @@ export function FileList({ projectId, taskId }: FileListProps) {
                 <span className="text-[13px] font-medium truncate text-white" title={file.file_name}>
                   {file.file_name}
                 </span>
-                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mt-0.5 font-medium truncate">
-                  {formatFileSize(file.file_size)} • {file.uploaded_by_user?.full_name}
+                <span className="text-[11px] text-muted-foreground uppercase tracking-wider mt-0.5 font-medium truncate flex items-center gap-2">
+                  <span>{formatFileSize(file.file_size)} • {file.uploaded_by_user?.full_name}</span>
+                  {!taskId && file.task && (
+                    <span className="bg-[#858CE9]/10 text-[#858CE9] px-1.5 py-0.5 rounded text-[9px] truncate" title={`Task: ${file.task.title}`}>
+                      Task: {file.task.title}
+                    </span>
+                  )}
+                  {!taskId && !file.task && (
+                    <span className="bg-white/5 text-white/50 px-1.5 py-0.5 rounded text-[9px]">
+                      Project Resource
+                    </span>
+                  )}
                 </span>
               </div>
             </div>
@@ -184,7 +207,7 @@ export function FileList({ projectId, taskId }: FileListProps) {
               {(currentUserId === file.uploaded_by || currentUserRole === 'Admin') && (
                 <button
                   className="h-7 w-7 flex items-center justify-center rounded border border-transparent hover:bg-rose-500/10 hover:border-rose-500/20 text-muted-foreground hover:text-rose-400 transition-all bg-background"
-                  onClick={() => handleDelete(file.id, file.file_path, file.file_name)}
+                  onClick={() => handleDelete(file.id, file.file_path, file.file_name, file.task_id)}
                   title="Delete"
                 >
                   <Trash2 className="h-3 w-3" />

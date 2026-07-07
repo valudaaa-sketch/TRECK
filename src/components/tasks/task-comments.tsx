@@ -365,17 +365,24 @@ export function TaskComments({
                       )}
 
                       {/* File Deleted */}
-                      {entry.action === "file_deleted" && entry.previous_value && (
-                        <span className="line-through text-white/40 font-medium">
-                          {typeof entry.previous_value === "object" && (entry.previous_value as any).file_path ? (
-                            <button onClick={() => downloadFile((entry.previous_value as any).file_path)} className="hover:underline hover:text-white/60">
-                              {(entry.previous_value as any).file_name || "a file"}
-                            </button>
-                          ) : (
-                            typeof entry.previous_value === "object" ? (entry.previous_value as any).file_name || JSON.stringify(entry.previous_value) : String(entry.previous_value)
-                          )}
-                        </span>
-                      )}
+                      {entry.action === "file_deleted" && entry.previous_value && (() => {
+                        const prevValue = entry.previous_value as any;
+                        const fileName = prevValue.file_name || "a file";
+                        const filePath = prevValue.file_path;
+                        const isAvailable = new Date(entry.created_at).getTime() > Date.now() - 15 * 24 * 60 * 60 * 1000;
+                        
+                        return (
+                          <span className="line-through text-white/40 font-medium opacity-70">
+                            {isAvailable && filePath ? (
+                              <button onClick={() => downloadFile(filePath)} className="hover:underline decoration-white/40">
+                                {fileName}
+                              </button>
+                            ) : (
+                              fileName
+                            )}
+                          </span>
+                        )
+                      })()}
 
                       {/* Checklists */}
                       {entry.action.startsWith("checklist_") && (rawNext || rawPrev) && (
