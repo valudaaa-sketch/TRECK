@@ -63,8 +63,8 @@ export default async function TaskDetailPage(props: { params: Promise<{ projectI
   }
 
   return (
-    <div className="relative flex flex-col h-full w-full text-white bg-black">
-      <div className="w-full relative z-10 flex-1 flex flex-col">
+    <div className="relative flex flex-col h-full w-full text-white bg-black overflow-hidden">
+      <div className="w-full relative z-10 flex-1 flex flex-col min-h-0">
 
 
 
@@ -72,8 +72,8 @@ export default async function TaskDetailPage(props: { params: Promise<{ projectI
 
 
         {/* Task View Main Area */}
-        <div className="flex-1 flex flex-col md:items-center md:justify-start p-0 md:pt-4 md:px-8 md:pb-6 overflow-hidden">
-          <div className="w-full max-w-[1200px] h-full md:max-h-[850px] bg-background rounded-none md:rounded-xl border-none md:border border-border flex flex-col md:overflow-hidden md:shadow-2xl relative z-10 shrink-0">
+        <div className="flex-1 flex flex-col md:items-center md:justify-start p-0 md:pt-4 md:px-8 md:pb-6 overflow-hidden min-h-0">
+          <div className="w-full max-w-[1200px] h-full md:max-h-[850px] bg-background rounded-none md:rounded-xl border-none md:border border-border flex flex-col overflow-hidden md:shadow-2xl relative z-10">
         <TaskDetailForm 
           task={task} 
           statuses={statuses || []} 

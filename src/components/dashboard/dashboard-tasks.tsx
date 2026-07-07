@@ -130,7 +130,11 @@ export function DashboardTasks({
             return (
               <div
                 key={task.id}
-                className="flex items-start sm:items-center justify-between py-3 sm:py-3 px-3 sm:px-4 border-b border-border last:border-b-0 hover:bg-white/[0.02] transition-colors group relative gap-2 sm:gap-0"
+                className={`flex items-start sm:items-center justify-between py-3 sm:py-3 px-3 sm:px-4 border-b border-border last:border-b-0 transition-colors group relative gap-2 sm:gap-0 ${
+                  isResolved
+                    ? 'bg-emerald-950/20 hover:bg-emerald-950/30 border-l-2 border-l-emerald-800/40'
+                    : 'hover:bg-white/[0.02]'
+                }`}
               >
                 {/* Left Side: Details */}
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-center min-w-0">

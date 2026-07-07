@@ -169,7 +169,7 @@ export function TaskDetailForm({
   }
 
   return (
-    <div className="relative flex flex-col h-full w-full overflow-x-hidden">
+    <div className={`relative flex flex-col h-full w-full overflow-x-hidden transition-colors duration-500 ${isResolved ? 'bg-emerald-950/10' : ''}`}>
       {/* Archive Warning Dialogs */}
       {archiveWarningState > 0 && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
@@ -215,7 +215,7 @@ export function TaskDetailForm({
       )}
 
       {/* Full Width Header - always visible, never scrolls because sibling columns scroll independently */}
-      <header className="px-3 py-2.5 md:px-6 lg:px-8 md:py-3.5 border-b border-border shrink-0 bg-background md:rounded-t-xl z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm">
+      <header className={`px-3 py-2.5 md:px-6 lg:px-8 md:py-3.5 border-b border-border shrink-0 bg-background md:rounded-t-xl z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm transition-colors duration-500 ${isResolved ? 'border-b-emerald-900/40' : ''}`}>
         <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-2 md:gap-x-3 mb-1.5 md:mb-2.5">
           <div className="flex items-center gap-2 lg:gap-3 min-w-0">
             <Link
