@@ -180,6 +180,11 @@ export function DashboardTasks({
                         <span className={`text-[14px] leading-tight truncate ${isResolved ? 'text-muted-foreground line-through' : 'text-foreground font-medium'}`}>
                           {task.title}
                         </span>
+                        {task.files && task.files.length > 0 && (
+                          <div className="flex items-center text-muted-foreground shrink-0 ml-1" title={`${task.files.length} attachment${task.files.length > 1 ? 's' : ''}`}>
+                            <Paperclip className="w-3.5 h-3.5" />
+                          </div>
+                        )}
                       </div>
                       
                       {/* Right: Meta / Badges */}
