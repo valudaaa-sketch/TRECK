@@ -238,21 +238,21 @@ export function TaskDetailForm({
               variant="ghost"
               onClick={handleCancel}
               disabled={!hasChanges || saving}
-              className={`h-8 w-8 lg:w-auto p-0 lg:px-3.5 flex items-center justify-center rounded-md border transition-all shrink-0 ${
+              className={`h-10 w-10 md:h-8 md:w-8 lg:w-auto p-0 lg:px-3.5 flex items-center justify-center rounded-md border transition-all shrink-0 ${
                 hasChanges
                   ? 'text-muted-foreground border-border hover:text-white hover:bg-accent'
                   : 'text-muted-foreground/30 border-border/20 cursor-not-allowed'
               }`}
               title="Discard Changes"
             >
-              <Undo2 className="h-4 w-4 lg:hidden" />
+              <Undo2 className="h-5 w-5 md:h-4 md:w-4 lg:hidden" />
               <span className="hidden lg:inline text-[13px]">Discard</span>
             </Button>
             <Button
               size="sm"
               onClick={handleSave}
               disabled={!hasChanges || saving}
-              className={`h-8 w-8 lg:w-auto p-0 lg:px-4 flex items-center justify-center rounded-md transition-all shrink-0 ${
+              className={`h-10 w-10 md:h-8 md:w-8 lg:w-auto p-0 lg:px-4 flex items-center justify-center rounded-md transition-all shrink-0 ${
                 hasChanges
                   ? 'bg-[#858CE9] text-white hover:bg-[#7a81d4]'
                   : 'bg-[#858CE9]/20 text-white/30 cursor-not-allowed'
@@ -263,7 +263,7 @@ export function TaskDetailForm({
                 <span className="animate-pulse">...</span>
               ) : (
                 <>
-                  <Save className="h-4 w-4 lg:hidden" />
+                  <Save className="h-5 w-5 md:h-4 md:w-4 lg:hidden" />
                   <span className="hidden lg:inline text-[13px]">Save Changes</span>
                 </>
               )}
@@ -302,7 +302,7 @@ export function TaskDetailForm({
                 }
               }}
               disabled={isResolved || saving}
-              className={`h-8 w-8 lg:w-auto p-0 lg:px-4 flex items-center justify-center rounded-md transition-all shrink-0 ${
+              className={`h-10 w-10 md:h-8 md:w-8 lg:w-auto p-0 lg:px-4 flex items-center justify-center rounded-md transition-all shrink-0 ${
                 isResolved
                   ? 'bg-emerald-900/20 text-emerald-500/40 cursor-not-allowed border border-emerald-900/20'
                   : 'bg-emerald-600 hover:bg-emerald-500 text-white'
@@ -310,10 +310,10 @@ export function TaskDetailForm({
               title={isResolved ? "Resolved" : "Mark Resolved"}
             >
               {isResolved ? (
-                <CheckCircle2 className="h-4 w-4" />
+                <CheckCircle2 className="h-5 w-5 md:h-4 md:w-4" />
               ) : (
                 <>
-                  <CheckCircle2 className="h-4 w-4 lg:hidden" />
+                  <CheckCircle2 className="h-5 w-5 md:h-4 md:w-4 lg:hidden" />
                   <span className="hidden lg:inline text-[13px]">Mark Resolved</span>
                 </>
               )}
@@ -322,8 +322,8 @@ export function TaskDetailForm({
             {/* Divider */}
             <div className="hidden lg:block w-px h-4 bg-border mx-1" />
 
-            <button onClick={() => setArchiveWarningState(1)} className="flex items-center justify-center gap-1.5 hover:text-white transition-colors bg-white/5 hover:bg-white/10 border border-white/10 w-8 lg:w-auto lg:px-3.5 h-8 rounded-md font-medium shrink-0" title="Archive">
-              <Archive className="h-4 w-4" />
+            <button onClick={() => setArchiveWarningState(1)} className="flex items-center justify-center gap-1.5 hover:text-white transition-colors bg-white/5 hover:bg-white/10 border border-white/10 w-10 h-10 md:w-8 md:h-8 lg:w-auto lg:px-3.5 rounded-md font-medium shrink-0" title="Archive">
+              <Archive className="h-5 w-5 md:h-4 md:w-4" />
               <span className="hidden lg:inline text-[13px]">Archive</span>
             </button>
           </div>

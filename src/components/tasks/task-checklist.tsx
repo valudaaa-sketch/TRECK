@@ -133,7 +133,7 @@ export function TaskChecklist({
             <Button 
               variant="ghost" 
               size="icon" 
-              className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-rose-400 hover:bg-transparent transition-all shrink-0 -mr-2"
+              className="h-6 w-6 opacity-100 md:opacity-0 md:group-hover:opacity-100 text-muted-foreground hover:text-rose-400 hover:bg-transparent transition-all shrink-0 -mr-2"
               onClick={(e) => deleteItem(e, item.id, item.item_text)}
             >
               <Trash2 className="h-4 w-4" />

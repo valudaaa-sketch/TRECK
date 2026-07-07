@@ -176,7 +176,7 @@ export function FileList({ projectId, taskId }: FileListProps) {
                   <FileIcon className="h-5 w-5 text-muted-foreground" />
                 )}
               </div>
-              <div className="flex flex-col flex-1 min-w-0 pr-8">
+              <div className="flex flex-col flex-1 min-w-0 pr-20">
                 <span className="text-[13px] font-medium truncate text-white" title={file.file_name}>
                   {file.file_name}
                 </span>
@@ -196,7 +196,7 @@ export function FileList({ projectId, taskId }: FileListProps) {
               </div>
             </div>
             
-            <div className="absolute top-1/2 -translate-y-1/2 right-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10 flex gap-1">
+            <div className="absolute top-1/2 -translate-y-1/2 right-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-10 flex gap-1">
               <button
                 className="h-7 w-7 flex items-center justify-center rounded border border-transparent hover:bg-accent hover:border-input text-muted-foreground hover:text-white transition-all bg-background"
                 onClick={() => handleDownload(file.file_path, file.file_name)}
