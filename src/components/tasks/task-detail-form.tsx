@@ -215,8 +215,8 @@ export function TaskDetailForm({
       )}
 
       {/* Full Width Header */}
-      <header className="px-3 py-3 md:px-6 lg:px-8 md:py-4 border-b border-border shrink-0 bg-background md:rounded-t-xl sticky top-0 z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-2 md:gap-x-3 mb-2 md:mb-3">
+      <header className="px-3 py-2.5 md:px-6 lg:px-8 md:py-3.5 border-b border-border shrink-0 bg-background md:rounded-t-xl sticky top-0 z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-2 md:gap-x-3 mb-1.5 md:mb-2.5">
           <div className="flex items-center gap-2 lg:gap-3 min-w-0">
             <Link
               href={`/projects/${task.project_id}/tasks`}
@@ -331,7 +331,7 @@ export function TaskDetailForm({
         <input 
           value={draft.title} 
           onChange={(e) => setDraft(d => ({ ...d, title: e.target.value }))}
-          className="w-full bg-transparent text-2xl md:text-3xl font-semibold text-white placeholder:text-muted-foreground border-none outline-none focus:bg-[#111] rounded-lg -ml-2 px-2 py-1 transition-colors"
+          className="w-full bg-transparent text-xl md:text-2xl font-semibold text-white placeholder:text-muted-foreground border-none outline-none focus:bg-[#111] rounded-lg -ml-1.5 px-1.5 py-0.5 transition-colors"
           placeholder="Task Title"
         />
       </header>
