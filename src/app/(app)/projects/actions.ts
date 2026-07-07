@@ -39,6 +39,17 @@ export async function createProject(formData: FormData) {
     throw new Error(error.message)
   }
 
+  // Add the creator as a Project Admin
+  const { error: memberError } = await supabase.from("project_members").insert({
+    project_id: data.id,
+    user_id: user.id,
+    role: "Admin"
+  })
+
+  if (memberError) {
+    console.error("Failed to add creator as project member:", memberError)
+  }
+
   // Log activity
   await supabase.from("activity_logs").insert({
     entity_type: "project",
