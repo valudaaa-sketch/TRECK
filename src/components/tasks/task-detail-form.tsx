@@ -214,8 +214,8 @@ export function TaskDetailForm({
         </div>
       )}
 
-      {/* Full Width Header */}
-      <header className="px-3 py-2.5 md:px-6 lg:px-8 md:py-3.5 border-b border-border shrink-0 bg-background md:rounded-t-xl sticky top-0 z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm">
+      {/* Full Width Header - always visible, never scrolls because sibling columns scroll independently */}
+      <header className="px-3 py-2.5 md:px-6 lg:px-8 md:py-3.5 border-b border-border shrink-0 bg-background md:rounded-t-xl z-40 supports-[backdrop-filter]:bg-background/95 backdrop-blur shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-2 md:gap-x-3 mb-1.5 md:mb-2.5">
           <div className="flex items-center gap-2 lg:gap-3 min-w-0">
             <Link
@@ -336,7 +336,7 @@ export function TaskDetailForm({
         />
       </header>
 
-      {/* Columns */}
+      {/* Columns - this is the scroll area; header above never scrolls because it's a flex sibling */}
       <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden overflow-x-hidden">
         {/* Left Column */}
         <div className="flex-1 flex flex-col p-4 md:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-border overflow-x-hidden overflow-visible lg:overflow-y-auto space-y-6 custom-scrollbar min-w-0">
