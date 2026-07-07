@@ -25,6 +25,10 @@ export function ProjectSwitcher({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        // Prevent closing if clicking inside a dialog (which renders in a portal)
+        if ((event.target as Element).closest('[role="dialog"]')) {
+          return
+        }
         setIsOpen(false)
       }
     }
