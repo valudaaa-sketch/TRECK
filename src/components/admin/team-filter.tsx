@@ -27,7 +27,6 @@ export function TeamFilter({
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all_users">All Users</SelectItem>
-        <SelectItem value="all_projects">All Projects</SelectItem>
         {projects?.map(p => (
           <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
         ))}

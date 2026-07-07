@@ -64,7 +64,7 @@ export default async function TeamManagementPage(props: { searchParams: Promise<
 
   // Validate the filter against active projects. If invalid (e.g. archived project cookie), default to "all_users"
   let validProjectIdFilter = projectIdFilter;
-  if (validProjectIdFilter && validProjectIdFilter !== "all_users" && validProjectIdFilter !== "all_projects") {
+  if (validProjectIdFilter && validProjectIdFilter !== "all_users") {
     if (!projects?.some(p => p.id === validProjectIdFilter)) {
       validProjectIdFilter = "all_users";
     }
@@ -74,9 +74,7 @@ export default async function TeamManagementPage(props: { searchParams: Promise<
 
   // Filter users if a project is selected
   let filteredUsers = users || [];
-  if (validProjectIdFilter === "all_projects") {
-    filteredUsers = filteredUsers.filter(u => userProjectsMap[u.id] && userProjectsMap[u.id].length > 0);
-  } else if (validProjectIdFilter !== "all_users") {
+  if (validProjectIdFilter !== "all_users") {
     filteredUsers = filteredUsers.filter(u => 
       userProjectsMap[u.id]?.some(p => p.id === validProjectIdFilter)
     );
